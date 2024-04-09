@@ -47,25 +47,7 @@ userSchema.methods.validatePassword = async function (password: string) {
   return await bcryptjs.compare(password, this.password);
 };
 
-// Export the User model
-export default model<UserDocument>("User", userSchema);
+// Register the schema with Mongoose
+const User = model<UserDocument>("User", userSchema);
 
-// Example usage
-const User = model<UserDocument>("User");
-
-const user = new User({ email: 'example@example.com', username: 'exampleUser', password: 'password' });
-user.save()
-  .then(savedUser => {
-    console.log(savedUser);
-    // Now you can call validatePassword
-    user.validatePassword('password')
-      .then(isValid => {
-        console.log('Is password valid?', isValid);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  })
-  .catch(error => {
-    console.error(error);
-  });
+export default User;
